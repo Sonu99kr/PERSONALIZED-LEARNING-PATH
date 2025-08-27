@@ -30,7 +30,7 @@ function LoginForm() {
       <div>
         <p>Login Form</p>
         <div>
-          <label>Email address:</label>
+          <label>Email address: </label>
           <input
             type="email"
             placeholder="email"
@@ -40,7 +40,7 @@ function LoginForm() {
           />
         </div>
         <div>
-          <label>Password</label>
+          <label>Password: </label>
           <input
             type="password"
             placeholder="password"
