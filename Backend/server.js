@@ -6,7 +6,8 @@ const cors = require("cors");
 const roadmapRoutes = require("./Routes/roadmapRoutes");
 const userRoadmapRoutes = require("./Routes/userRoadmapRoutes");
 
-const authRoute = require("./Routes/userAuth");
+const userRoute = require("./Routes/userAuth");
+const authRoute = require("./Routes/auth");
 const passwordResetRoute = require("./Routes/resetPassword");
 
 const app = express();
@@ -22,10 +23,11 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error(err));
 
-app.use("/api/auth", authRoute);
+app.use("/api/auth", userRoute);
 app.use("/api/password-reset", passwordResetRoute);
 app.use("/api/roadmaps", roadmapRoutes);
 app.use("/api/user-roadmaps", userRoadmapRoutes);
+app.use("/auth", authRoute);
 
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => console.log(`server is running ${PORT}`));
