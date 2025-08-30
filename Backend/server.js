@@ -5,13 +5,20 @@ require("dotenv").config();
 const cors = require("cors");
 const roadmapRoutes = require("./Routes/roadmapRoutes");
 const userRoadmapRoutes = require("./Routes/userRoadmapRoutes");
+const dashboardRoute = require("./Routes/dashboardRoute");
 
 const userRoute = require("./Routes/userAuth");
 const authRoute = require("./Routes/auth");
 const passwordResetRoute = require("./Routes/resetPassword");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -27,6 +34,7 @@ app.use("/api/auth", userRoute);
 app.use("/api/password-reset", passwordResetRoute);
 app.use("/api/roadmaps", roadmapRoutes);
 app.use("/api/user-roadmaps", userRoadmapRoutes);
+app.use("api/user", dashboardRoute);
 app.use("/auth", authRoute);
 
 const PORT = process.env.PORT || 3002;

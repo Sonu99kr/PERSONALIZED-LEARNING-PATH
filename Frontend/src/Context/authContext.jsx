@@ -1,5 +1,4 @@
 import axios from "axios";
-import { set } from "mongoose";
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +38,7 @@ const AuthProvider = ({ children }) => {
     verifyToken();
   }, [token]);
 
-  const isLogin = (newToken) => {
+  const login = (newToken) => {
     setToken(newToken);
     localStorage.setItem("token", newToken);
     setIsAuthenticated(true);
@@ -54,7 +53,7 @@ const AuthProvider = ({ children }) => {
   };
   return (
     <AuthContext.Provider
-      value={{ token, isAuthenticated, isLogin, logout, loading }}
+      value={{ token, isAuthenticated, login, logout, loading }}
     >
       {!loading && children}
     </AuthContext.Provider>
