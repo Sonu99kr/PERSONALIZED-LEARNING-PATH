@@ -16,6 +16,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    completedCourses: { type: Number, default: 0 },
+    totalCourses: { type: Number, default: 0 },
+    level: { type: String, default: "Beginner" },
+    nextMilestone: { type: String, default: "Complete more courses" },
+    recentActivity: [
+      {
+        action: String,
+        type: String,
+        time: { type: Date, default: Date.now },
+      },
+    ],
     learningPath: [
       {
         title: { type: String },
