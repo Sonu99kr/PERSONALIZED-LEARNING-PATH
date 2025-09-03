@@ -16,29 +16,26 @@ router.get("/stats", authMiddleWare, (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Error fetching stats" });
   }
+});
+router.get("/recent-activity", authMiddleWare, (req, res) => {
+  try {
+    const user = req.user;
+    const recentActivity = user.recentActivity
+      .sort((a, b) => b.time - a.time)
+      .slice(0, 5);
+    res.json(recentActivity);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching recent activity" });
+  }
+});
 
-  router.get("/recent-activity", authMiddleWare, (req, res) => {
-    try {
-      const user = req.user;
-      const recentActivity = user.recentActivity
-        .sort((a, b) => b.time - a.time)
-        .slice(0, 5);
-      res.json(recentActivity);
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ message: "Error fetching recent activity" });
-    }
-  });
-
-  router.get("/learning-path", authMiddleWare, (req, res) => {
-    try {
-      const user = req.user;
-      res.json(user.learningPath);
-    } catch (error) {
-      return res.status(500).json({ message: "Error fetching learning path" });
-    }
-  });
+router.get("/learning-path", authMiddleWare, (req, res) => {
+  try {
+    const user = req.user;
+    res.json(user.learningPath);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching learning path" });
+  }
 });
 
 module.exports = router;

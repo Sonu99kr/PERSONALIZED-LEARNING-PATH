@@ -6,7 +6,7 @@ const cors = require("cors");
 const roadmapRoutes = require("./Routes/roadmapRoutes");
 const userRoadmapRoutes = require("./Routes/userRoadmapRoutes");
 const dashboardRoute = require("./Routes/dashboardRoute");
-
+const profile = require("./Routes/profile");
 const userRoute = require("./Routes/userAuth");
 const authRoute = require("./Routes/auth");
 const passwordResetRoute = require("./Routes/resetPassword");
@@ -34,7 +34,7 @@ app.use("/api/auth", userRoute);
 app.use("/api/password-reset", passwordResetRoute);
 app.use("/api/roadmaps", roadmapRoutes);
 app.use("/api/user-roadmaps", userRoadmapRoutes);
-app.use("api/user", dashboardRoute);
+app.use("api/user", dashboardRoute, profile);
 app.use("/auth", authRoute);
 
 const PORT = process.env.PORT || 3002;

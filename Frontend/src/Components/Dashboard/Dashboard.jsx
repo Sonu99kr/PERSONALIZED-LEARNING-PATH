@@ -1,4 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
+
 import learningPathCurve from "./LearningPathCurve";
 import progressBar from "./ProgressBar";
 import { AuthContext } from "../../Context/authContext";
@@ -20,23 +22,23 @@ function Dashboard() {
 
     const fetchData = async () => {
       try {
-        const token = localStorage.item("token");
+        const token = localStorage.getItem("token");
 
         const [statsRes, recentActivityRes, learningPathRes] =
           await Promise.all([
-            axios.get("/api/user/stats", {
+            axios.get("http://localhost:3002/api/user/stats", {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            axios.get("/api/user/recent-activity", {
+            axios.get("http://localhost:3002/api/user/recent-activity", {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            axios.get("api/user/learningPath", {
+            axios.get("http://localhost:3002/api/user/learningPath", {
               headers: { Authorization: `Bearer ${token}` },
             }),
           ]);
         setUserStats(statsRes.data);
-        setRecentActivity(activityRes.data);
-        setLearningPath(pathRes.data);
+        setRecentActivity(recentActivityRes.data);
+        setLearningPath(learningPathRes.data);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       }
