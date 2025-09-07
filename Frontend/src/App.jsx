@@ -4,6 +4,8 @@ import "./App.css";
 import LoginForm from "./Components/Auth/LoginForm";
 import RegisterForm from "./Components/Auth/RegisterForm";
 import Dashboard from "./Components/Dashboard/Dashboard";
+import RoadmapSelector from "./Components/Roadmap/RoadmapSelector";
+import VisualRoadmap from "./Components/Roadmap/VisualRoadmap";
 import PrivateRoute from "./util/PrivateRoute";
 
 function App() {
@@ -17,6 +19,22 @@ function App() {
           element={
             <PrivateRoute>
               <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/roadmaps"
+          element={
+            <PrivateRoute>
+              <RoadmapSelector />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/roadmap/:id"
+          element={
+            <PrivateRoute>
+              <VisualRoadmap />
             </PrivateRoute>
           }
         />

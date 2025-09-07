@@ -1,19 +1,45 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import learningPathCurve from "./LearningPathCurve";
-import progressBar from "./ProgressBar";
+import LearningPathCurve from "./LearningPathCurve";
+import ProgressBar from "./ProgressBar";
 import { AuthContext } from "../../Context/authContext";
+import "./Dashboard.css";
 
 function Dashboard() {
   const { logout, isAuthenticated } = useContext(AuthContext);
-  const [userStats, setUserStats] = useState([]);
+  const navigate = useNavigate();
+  const [userStats, setUserStats] = useState({});
   const [recentActivity, setRecentActivity] = useState([]);
   const [learningPath, setLearningPath] = useState([]);
+  const [goals, setGoals] = useState([
+    {
+      id: 1,
+      title: "Complete 5 courses this month",
+      progress: 60,
+      target: 5,
+      current: 3,
+    },
+    {
+      id: 2,
+      title: "Achieve Intermediate level",
+      progress: 75,
+      target: 100,
+      current: 75,
+    },
+    {
+      id: 3,
+      title: "Study for 2 hours daily",
+      progress: 40,
+      target: 100,
+      current: 40,
+    },
+  ]);
   const [quickActions] = useState([
     { id: 1, title: "Continue Learning", icon: "📚", action: "resume" },
     { id: 2, title: "Take Assessment", icon: "📝", action: "assessment" },
-    { id: 3, title: "View Roadmap", icon: "🗺️", action: "roadmap" },
+    { id: 3, title: "Browse Roadmaps", icon: "🗺️", action: "roadmaps" },
     { id: 4, title: "Join Community", icon: "👥", action: "community" },
   ]);
 
@@ -23,7 +49,6 @@ function Dashboard() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-
         const [statsRes, recentActivityRes, learningPathRes] =
           await Promise.all([
             axios.get("http://localhost:3002/api/user/stats", {
@@ -32,7 +57,7 @@ function Dashboard() {
             axios.get("http://localhost:3002/api/user/recent-activity", {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            axios.get("http://localhost:3002/api/user/learningPath", {
+            axios.get("http://localhost:3002/api/user/learning-path", {
               headers: { Authorization: `Bearer ${token}` },
             }),
           ]);
@@ -54,8 +79,8 @@ function Dashboard() {
       case "assessment":
         console.log("Starting assessment...");
         break;
-      case "roadmap":
-        console.log("Opening roadmap...");
+      case "roadmaps":
+        navigate("/roadmaps");
         break;
       case "community":
         console.log("Joining community...");
@@ -72,8 +97,13 @@ function Dashboard() {
   if (!isAuthenticated) {
     return <div>Please log in to access the dashboard</div>;
   }
-  if (!userStats) {
-    return <div>Loadig Dashboard...</div>;
+  if (!userStats || Object.keys(userStats).length === 0) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading Dashboard...</p>
+      </div>
+    );
   }
 
   return (
@@ -83,7 +113,7 @@ function Dashboard() {
           <h1>Welcome back</h1>
           <p>Let's continue your learning journey</p>
         </div>
-        <div header-actions>
+        <div className="header-actions">
           <button className="profile-btn">
             <span className="profile-avatar">👤</span>
             <span>Profile</span>
@@ -107,7 +137,7 @@ function Dashboard() {
             </div>
           </div>
           <div className="stat-card">
-            <div className="statc-icon">🏆</div>
+            <div className="stat-icon">🏆</div>
             <div className="stat-content">
               <h3>{userStats.level}</h3>
               <p>Current Level</p>
@@ -128,7 +158,7 @@ function Dashboard() {
         <div className="content-grid">
           <div className="content-card progress-selection">
             <h2>your progress</h2>
-            <progressBar
+            <ProgressBar
               progress={Math.round(
                 (userStats.completedCourses / userStats.totalCourses) * 100
               )}
@@ -137,7 +167,7 @@ function Dashboard() {
           </div>
           <div className="content-card learning-path-section">
             <h2>Learning Path</h2>
-            <learningPathCurve
+            <LearningPathCurve
               completedCourses={userStats.completedCourses}
               totalCourses={userStats.totalCourses}
             />
@@ -171,7 +201,7 @@ function Dashboard() {
             </div>
           </div>
           <div className="content-card activity-sections">
-            <h2>Recent Acticity</h2>
+            <h2>Recent Activity</h2>
             <div className="activity-list">
               {recentActivity.map((activity, idx) => (
                 <div key={idx} className={`activity-item ${activity.type}`}>
@@ -185,6 +215,31 @@ function Dashboard() {
                     <p className="activity-time">
                       {new Date(activity.time).toLocaleString()}
                     </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="content-card goals-section">
+            <h2>Your Goals</h2>
+            <div className="goals-list">
+              {goals.map((goal) => (
+                <div key={goal.id} className="goal-item">
+                  <div className="goal-header">
+                    <h3 className="goal-title">{goal.title}</h3>
+                    <span className="goal-progress-text">{goal.progress}%</span>
+                  </div>
+                  <div className="goal-progress-bar">
+                    <div
+                      className="goal-progress-fill"
+                      style={{ width: `${goal.progress}%` }}
+                    ></div>
+                  </div>
+                  <div className="goal-stats">
+                    <span>
+                      {goal.current} / {goal.target}
+                    </span>
                   </div>
                 </div>
               ))}

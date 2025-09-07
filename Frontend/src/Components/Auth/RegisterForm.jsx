@@ -1,32 +1,35 @@
-import axios from "axios";
 import React, { useState } from "react";
+import authApi from "../../Api/authApi";
 import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3002/api/auth/register", {
+      setError("");
+      setLoading(true);
+      await authApi.post("/api/auth/register", {
         name,
         email,
         password,
       });
-
-      alert("Registration Successful!");
+      alert("Registration successful. Please login.");
       navigate("/login");
     } catch (err) {
       console.error(
         "Registration Failed:",
         err.response?.data?.message || err.message
       );
-      alert(
-        "Error: " + (err.response?.data?.message || "Registration failed.")
-      );
+      setError(err.response?.data?.message || "Registration failed.");
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -62,10 +65,12 @@ function RegisterForm() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit">Register</button>
+        {error && <p style={{ color: "red", marginTop: "8px" }}>{error}</p>}
+        <button type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
       </form>
     </div>
   );
 }
-
 export default RegisterForm;

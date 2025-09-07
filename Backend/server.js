@@ -34,7 +34,7 @@ app.use("/api/auth", userRoute);
 app.use("/api/password-reset", passwordResetRoute);
 app.use("/api/roadmaps", roadmapRoutes);
 app.use("/api/user-roadmaps", userRoadmapRoutes);
-app.use("api/user", dashboardRoute, profile);
+app.use("/api/user", dashboardRoute, profile);
 app.use("/auth", authRoute);
 
 const PORT = process.env.PORT || 3002;
