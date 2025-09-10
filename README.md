@@ -265,11 +265,8 @@ For support and questions:
 
 - [ ] Social learning features (study groups, forums)
 - [ ] Advanced analytics and reporting
-- [ ] Mobile app development
 - [ ] Integration with external learning platforms
 - [ ] Gamification elements (badges, leaderboards)
-- [ ] Video content integration
-- [ ] Offline learning capabilities
 - [ ] Multi-language support
 
 ## 🙏 Acknowledgments
