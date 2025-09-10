@@ -4,10 +4,11 @@ const {
   getAllRoadmaps,
   getRoadmapById,
 } = require("../Controllers/roadmapController");
+const authMiddleware = require("../Middleware/middlewareAuth");
 
 const router = express.Router();
 
-router.post("/", createNewRoadmap);
+router.post("/", authMiddleware, createNewRoadmap);
 router.get("/", getAllRoadmaps);
 router.get("/:id", getRoadmapById);
 

@@ -77,7 +77,7 @@ function Dashboard() {
         console.log("Resuming learning...");
         break;
       case "assessment":
-        console.log("Starting assessment...");
+        navigate("/assessment");
         break;
       case "roadmaps":
         navigate("/roadmaps");

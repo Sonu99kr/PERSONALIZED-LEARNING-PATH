@@ -14,4 +14,23 @@ authApi.interceptors.request.use((config) => {
   return config;
 });
 
+// Password reset API functions
+export const requestPasswordReset = async (email) => {
+  const response = await authApi.post("/api/password-reset/request", { email });
+  return response.data;
+};
+
+export const resetPassword = async (token, newPassword) => {
+  const response = await authApi.post("/api/password-reset/reset", {
+    token,
+    newPassword,
+  });
+  return response.data;
+};
+
+export const verifyResetToken = async (token) => {
+  const response = await authApi.post(`/api/password-reset/verify/${token}`);
+  return response.data;
+};
+
 export default authApi;

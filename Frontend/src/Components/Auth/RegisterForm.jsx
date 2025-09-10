@@ -69,6 +69,13 @@ function RegisterForm() {
         <button type="submit" disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
+
+        <p>
+          Already have an account?
+          <a href="/login" className="link-text">
+            Sign in
+          </a>
+        </p>
       </form>
     </div>
   );

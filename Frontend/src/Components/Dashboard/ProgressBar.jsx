@@ -13,7 +13,7 @@ function ProgressBar({ progress = 0, color = "#4CAF50", height = "8px" }) {
           }}
         />
       </div>
-      <div className="progress-text">{Math.round(progress)}% Complete</div>
+      <div className="progress-text">{Math.round(progress) || 0}% Complete</div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import axios from "axios";
+import authApi from "../Api/authApi";
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,10 +19,7 @@ const AuthProvider = ({ children }) => {
       }
 
       try {
-        const res = await axios.get("http://localhost:3002/auth/verify", {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        });
+        const res = await authApi.get("/auth/verify");
         if (res.data.valid) {
           setIsAuthenticated(true);
         }

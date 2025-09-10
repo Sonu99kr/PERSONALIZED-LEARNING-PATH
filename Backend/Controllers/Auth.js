@@ -49,7 +49,6 @@ async function handleUserLogin(req, res) {
     }
 
     const token = setUser(user);
-    res.cookie("token", token, { httpOnly: true, secure: false });
     return res.json({
       message: "Login Successfully",
       token,
@@ -62,7 +61,6 @@ async function handleUserLogin(req, res) {
 }
 
 async function handleUserLogout(req, res) {
-  res.clearCookie("token", { httpOnly: true, secure: false });
   res.json({ message: "Logged out Successfully" });
 }
 

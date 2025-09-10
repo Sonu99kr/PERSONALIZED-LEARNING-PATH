@@ -11,7 +11,11 @@ const transport = nodemailer.createTransport({
 });
 
 const sendPasswordResetMail = async (email, resetToken) => {
-  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+  const frontendUrl =
+    process.env.FRONTEND_URL ||
+    process.env.CLIENT_ORIGIN ||
+    "http://localhost:5173";
+  const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
 
   const mailOptions = {
     from: `"MyApp Support" <${process.env.EMAIL_USER}>`,

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
-import authApi from "../../Api/authApi";
+import authApi, { requestPasswordReset } from "../../Api/authApi";
 import { AuthContext } from "../../Context/authContext";
+import "./login.css";
 
 function LoginForm() {
   const { login } = useContext(AuthContext);
@@ -8,6 +9,8 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
+  const [resetMessage, setResetMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,9 +55,21 @@ function LoginForm() {
             required
             onChange={(e) => setPassword(e.target.value)}
           />
+          <p>
+            Don't have an account?{" "}
+            <a href="/register" className="link-text">
+              Sign up
+            </a>
+          </p>
+          <p>
+            <a href="/forgot-password" className="link-text">
+              Forgot Password?
+            </a>
+          </p>
         </div>
 
         {error && <p className="error-text">{error}</p>}
+        {resetMessage && <p className="success-text">{resetMessage}</p>}
 
         <button type="submit" disabled={loading} className="login-btn">
           {loading ? "Logging in..." : "Login"}

@@ -10,12 +10,13 @@ const profile = require("./Routes/profile");
 const userRoute = require("./Routes/userAuth");
 const authRoute = require("./Routes/auth");
 const passwordResetRoute = require("./Routes/resetPassword");
+const assessmentRoute = require("./Routes/assessmentRoute");
 
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
@@ -36,6 +37,7 @@ app.use("/api/roadmaps", roadmapRoutes);
 app.use("/api/user-roadmaps", userRoadmapRoutes);
 app.use("/api/user", dashboardRoute, profile);
 app.use("/auth", authRoute);
+app.use("/api/assessment", assessmentRoute);
 
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => console.log(`server is running ${PORT}`));
